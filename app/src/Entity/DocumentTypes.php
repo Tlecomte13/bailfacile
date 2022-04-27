@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Enum\DocumentTypesFormat;
 use App\Repository\DocumentTypesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,8 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: DocumentTypesRepository::class)]
 #[HasLifecycleCallbacks]
 class DocumentTypes
@@ -25,6 +28,7 @@ class DocumentTypes
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['document:write'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -96,7 +100,7 @@ class DocumentTypes
     {
         $slug = new AsciiSlugger();
 
-        return $slug->slug($this->getName(), '_');
+        return $slug->slug($this->getName(), '_')->lower();
     }
 
     public function getFormat(): ?string
