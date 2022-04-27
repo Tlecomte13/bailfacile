@@ -6,8 +6,6 @@ use App\Tests\utils\DatabaseTestCase;
 
 class DocumentGetTest extends DatabaseTestCase
 {
-    protected $databaseTool;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -15,7 +13,6 @@ class DocumentGetTest extends DatabaseTestCase
 
     public function testLimitTenResults(): void
     {
-
         $response = static::createClient()->request('GET', '/api/documents');
 
         $this->assertResponseIsSuccessful();
