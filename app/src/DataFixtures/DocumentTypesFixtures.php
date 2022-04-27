@@ -9,6 +9,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class DocumentTypesFixtures extends Fixture
 {
+    public const RENTAL_AGREEMENT = 'Rental agreement';
+    public const RENT_GUARANTEE_AGREEMENT = 'Rent guarantee agreement';
+    public const SUB_LETTING_AGREEMENT = 'Sub letting agreement';
+    public const RENTAL_AGREEMENT_AMENDMENT = 'Rental agreement amendment';
+    public const RENT_RECEIPT = 'Rent receipt';
+    public const RENT_INVOICE = 'Rent invoice';
+    public const LATE_PAYMENT_LETTER = 'Late payment letter';
+
     public function load(ObjectManager $manager): void
     {
         $documentTypes = $this->availableDocumentTypes();
@@ -24,6 +32,7 @@ class DocumentTypesFixtures extends Fixture
                          ->setUpdated($updated);
 
             $manager->persist($documentType);
+            $this->addReference($name, $documentType);
         }
 
         $manager->flush();
@@ -36,7 +45,8 @@ class DocumentTypesFixtures extends Fixture
     {
         return [
             [
-                'Rental agreement', // name
+
+                self::RENTAL_AGREEMENT, // name
                 DocumentTypesFormat::FORMAT_CONTRACT, // format
                 true, // esigned
                 true, // email
@@ -44,7 +54,7 @@ class DocumentTypesFixtures extends Fixture
                 true // updated
             ],
             [
-                'Rent guarantee agreement',
+                self::RENT_GUARANTEE_AGREEMENT,
                 DocumentTypesFormat::FORMAT_CONTRACT,
                 true,
                 true,
@@ -52,7 +62,7 @@ class DocumentTypesFixtures extends Fixture
                 true
             ],
             [
-                'Sub-letting agreement',
+                self::SUB_LETTING_AGREEMENT,
                 DocumentTypesFormat::FORMAT_CONTRACT,
                 true,
                 true,
@@ -60,7 +70,7 @@ class DocumentTypesFixtures extends Fixture
                 true
             ],
             [
-                'Rental agreement amendment',
+                self::RENTAL_AGREEMENT_AMENDMENT,
                 DocumentTypesFormat::FORMAT_CONTRACT,
                 true,
                 true,
@@ -68,7 +78,7 @@ class DocumentTypesFixtures extends Fixture
                 true
             ],
             [
-                'Rent receipt',
+                self::RENT_RECEIPT,
                 DocumentTypesFormat::FORMAT_LETTER,
                 false,
                 true,
@@ -76,7 +86,7 @@ class DocumentTypesFixtures extends Fixture
                 true
             ],
             [
-                'Rent invoice',
+                self::RENT_INVOICE,
                 DocumentTypesFormat::FORMAT_LETTER,
                 false,
                 true,
@@ -84,7 +94,7 @@ class DocumentTypesFixtures extends Fixture
                 true
             ],
             [
-                'Late payment letter',
+                self::LATE_PAYMENT_LETTER,
                 DocumentTypesFormat::FORMAT_LETTER,
                 false,
                 true,

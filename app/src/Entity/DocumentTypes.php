@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\DocumentTypesFormat;
 use App\Repository\DocumentTypesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
@@ -45,6 +47,14 @@ class DocumentTypes
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $update_at;
+
+    #[ORM\OneToMany(mappedBy: 'documentType', targetEntity: Document::class)]
+    private $documents;
+
+    public function __construct()
+    {
+        $this->documents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,5 +197,35 @@ class DocumentTypes
     public function updatedDateTimePreUpdate()
     {
         $this->setUpdateAt(new \DateTimeImmutable());
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setDocumentType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getDocumentType() === $this) {
+                $document->setDocumentType(null);
+            }
+        }
+
+        return $this;
     }
 }
