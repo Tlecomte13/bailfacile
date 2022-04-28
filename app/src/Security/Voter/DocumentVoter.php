@@ -14,9 +14,11 @@ class DocumentVoter extends Voter
 {
 
     const DOCUMENT_EDIT = 'DOCUMENT_EDIT';
+    const DOCUMENT_DELETE = 'DOCUMENT_DELETE';
 
     const AVAILABLEATTRIBUTE = [
-        self::DOCUMENT_EDIT
+        self::DOCUMENT_EDIT,
+        self::DOCUMENT_DELETE
     ];
 
     public function __construct(private EntityManagerInterface $entityManager)
@@ -44,6 +46,12 @@ class DocumentVoter extends Voter
                     return true;
                 } else {
                     return throw new AccessDeniedHttpException('Le document est vérouiller, vous ne pouvez plus le mettre à jour.');
+                }
+            case self::DOCUMENT_DELETE:
+                if (!$subject->getLocked()){
+                    return true;
+                } else {
+                    return throw new AccessDeniedHttpException('Le document est vérouiller, vous ne pouvez pas le supprimer.');
                 }
                 break;
         }

@@ -23,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ],
     itemOperations: [
-        "get", "put", "delete",
+        "get", "put",
+        "delete" => ["security" => "is_granted('DOCUMENT_DELETE', object)"],
         "patch" => ["security" => "is_granted('DOCUMENT_EDIT', object)"],
     ],
     attributes: [

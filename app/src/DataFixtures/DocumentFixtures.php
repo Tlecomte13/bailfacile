@@ -23,11 +23,12 @@ class DocumentFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $documents = $this->availableDocument();
-        foreach ($documents as [$documentTypes, $user])
+        foreach ($documents as [$documentTypes, $user, $locked])
         {
             $document = new Document();
             $document->setUser($this->getReference($user))
-                ->setDocumentType($this->getReference($documentTypes));
+                ->setDocumentType($this->getReference($documentTypes))
+                ->setLocked($locked);
 
             $manager->persist($document);
         }
@@ -44,58 +45,72 @@ class DocumentFixtures extends Fixture implements DependentFixtureInterface
             [
                 DocumentTypesFixtures::RENTAL_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENTAL_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENT_GUARANTEE_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENT_GUARANTEE_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::SUB_LETTING_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::SUB_LETTING_AGREEMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENTAL_AGREEMENT_AMENDMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENTAL_AGREEMENT_AMENDMENT,
                 UserFixtures::USER_REFERENCE,
+                null
             ],
             [
                 DocumentTypesFixtures::RENT_RECEIPT,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::RENT_RECEIPT,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::RENT_INVOICE,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::RENT_INVOICE,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::LATE_PAYMENT_LETTER,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
             [
                 DocumentTypesFixtures::LATE_PAYMENT_LETTER,
                 UserFixtures::USER_REFERENCE,
+                true
             ],
 
         ];
