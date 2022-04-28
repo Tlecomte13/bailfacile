@@ -76,6 +76,7 @@ class Document
     private $post;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['document:read'])]
     private $locked;
 
     public function getId(): ?int

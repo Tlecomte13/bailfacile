@@ -40,7 +40,9 @@ class DocumentVoter extends Voter
     {
         switch ($attribute) {
             case self::DOCUMENT_EDIT:
-                if ($subject->getLocked()){
+                if (!$subject->getLocked()){
+                    return true;
+                } else {
                     return throw new AccessDeniedHttpException('Le document est vérouiller, vous ne pouvez plus le mettre à jour.');
                 }
                 break;

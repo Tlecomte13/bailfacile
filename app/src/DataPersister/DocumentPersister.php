@@ -21,21 +21,27 @@ class DocumentPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        switch ($context['item_operation_name'])
-        {
-            case 'patch':
-                $this->canSign($data);
-                break;
+        $ITEM_OPERATION_NAME = array_key_exists('item_operation_name', $context);
+
+        if ($ITEM_OPERATION_NAME) {
+            switch ($context['item_operation_name'])
+            {
+                case 'patch':
+                    $this->canSign($data);
+                    $data->setLocked(true);
+                    break;
+            }
         }
 
-        $data->setLocked(true);
         $this->entityManager->persist($data);
         $this->entityManager->flush();
+
     }
 
     public function remove($data, array $context = [])
     {
-        // TODO: Implement remove() method.
+        $this->entityManager->remove($data);
+        $this->entityManager->flush();
     }
 
     private function canSign($data)
